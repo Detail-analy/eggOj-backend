@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.liu.yuoj.model.vo.UserVO;
 import lombok.Data;
 
 /**
@@ -89,6 +91,8 @@ public class Question implements Serializable {
      */
     @TableLogic
     private Integer isDelete;
+
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

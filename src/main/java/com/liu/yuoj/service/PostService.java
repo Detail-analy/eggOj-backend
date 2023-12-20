@@ -9,7 +9,7 @@ import com.liu.yuoj.model.vo.PostVO;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 帖子服务
+ * 服务
  *
 
  */

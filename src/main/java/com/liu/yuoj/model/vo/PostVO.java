@@ -60,7 +60,7 @@ public class PostVO implements Serializable {
     private Date updateTime;
 
     /**
-     * 标签列表
+     * 标签列表(注意点：question表中是字符串类型，是为了存入数据库，而这里是为了更好的展示给用户，所以还用列表来显示)
      */
     private List<String> tagList;
 
@@ -100,9 +100,6 @@ public class PostVO implements Serializable {
 
     /**
      * 对象转包装类
-     *
-     * @param post
-     * @return
      */
     public static PostVO objToVo(Post post) {
         if (post == null) {

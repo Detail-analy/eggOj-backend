@@ -48,7 +48,7 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
         // 是否已帖子收藏
         long userId = loginUser.getId();
         // 每个用户串行帖子收藏
-        // 锁必须要包裹住事务方法
+        // 锁必须要包裹住事务方法 todo 这个是否是接口的子类实现的？？？
         PostFavourService postFavourService = (PostFavourService) AopContext.currentProxy();
         synchronized (String.valueOf(userId).intern()) {
             return postFavourService.doPostFavourInner(userId, postId);

@@ -52,6 +52,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
+      #加了这个配置之后 不用在实体类isDelete属性上面加上@TableLogic注解也是可以的 因为在配置中已经指定了逻辑删除字段的名称
       logic-delete-field: isDelete # 全局逻辑删除的实体字段名
       logic-delete-value: 1 # 逻辑已删除值（默认为 1）
       logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
