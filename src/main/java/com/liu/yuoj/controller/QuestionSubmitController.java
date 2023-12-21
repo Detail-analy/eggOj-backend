@@ -1,10 +1,18 @@
 package com.liu.yuoj.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.liu.yuoj.annotation.AuthCheck;
 import com.liu.yuoj.common.BaseResponse;
 import com.liu.yuoj.common.ErrorCode;
 import com.liu.yuoj.common.ResultUtils;
+import com.liu.yuoj.constant.UserConstant;
 import com.liu.yuoj.exception.BusinessException;
+import com.liu.yuoj.exception.ThrowUtils;
+import com.liu.yuoj.model.dto.question.QuestionQueryRequest;
 import com.liu.yuoj.model.dto.questionSubmit.QuestionSubmitAddRequest;
+import com.liu.yuoj.model.dto.questionSubmit.QuestionSubmitQueryRequest;
+import com.liu.yuoj.model.entity.Question;
+import com.liu.yuoj.model.entity.QuestionSubmit;
 import com.liu.yuoj.model.entity.User;
 import com.liu.yuoj.service.QuestionSubmitService;
 import com.liu.yuoj.service.UserService;
@@ -50,6 +58,24 @@ public class QuestionSubmitController {
         final User loginUser = userService.getLoginUser(request);
         long result = questionsubmitService.doQuestionSubmit (questionSubmitAddRequest, loginUser);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * 分页获取提交问题列表todo 重点看看分页查询 不熟悉
+     * @param questionSubmitQueryRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/list/page")
+    public BaseResponse<Page<QuestionSubmit>> listQuestionByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
+                                                                 HttpServletRequest request) {
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        Page<Question> questionPage = questionsubmitService.page(new Page<>(current, size),
+                questionsubmitService.getQueryWrapper(questionQueryRequest));
+        return ResultUtils.success(questionPage);
     }
 
 }

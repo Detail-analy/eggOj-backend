@@ -1,22 +1,21 @@
-package com.liu.yuoj.model.entity;
+package com.liu.yuoj.model.dto.questionSubmit;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.liu.yuoj.common.PageRequest;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
- * 题目提交表
- * @TableName question_submit
+ * 题目提交查询请求类
  */
-@TableName(value ="question_submit")
 @Data
-public class QuestionSubmit implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class QuestionSubmitQueryRequest extends PageRequest implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -59,12 +58,4 @@ public class QuestionSubmit implements Serializable {
      */
     private Date updateTime;
 
-    /**
-     * 是否删除
-     */
-    @TableLogic
-    private Integer isDelete;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

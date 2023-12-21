@@ -124,12 +124,18 @@ public class QuestionVO implements Serializable {
              list = JSONUtil.toList (tags1, String.class);
         }
         questionVO.setTags (list);
-        List<String> list1=new ArrayList<> ();
-        String judgeConfig1 = question.getJudgeConfig ();
-        if (judgeConfig1!=null){
-            list1 = JSONUtil.toList (judgeConfig1, String.class);
+
+        /**
+         * memoryLimit:1000,stackLimit:1000,timeLimit:1000
+         */
+        String judgeConfig = question.getJudgeConfig ();
+        JudgeConfig judgeConfig1=null;
+        if (judgeConfig!=null){
+            //将json对象变为实体类对象
+             judgeConfig1 = JSONUtil.toBean (judgeConfig, JudgeConfig.class);
         }
-        questionVO.setTags (list1);
+
+        questionVO.setJudgeConfig (judgeConfig1);
 
         return questionVO;
     }
