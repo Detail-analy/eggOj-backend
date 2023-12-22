@@ -14,6 +14,7 @@ import com.liu.yuoj.model.dto.questionSubmit.QuestionSubmitQueryRequest;
 import com.liu.yuoj.model.entity.Question;
 import com.liu.yuoj.model.entity.QuestionSubmit;
 import com.liu.yuoj.model.entity.User;
+import com.liu.yuoj.model.vo.QuestionSubmitVO;
 import com.liu.yuoj.service.QuestionSubmitService;
 import com.liu.yuoj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -67,15 +68,17 @@ public class QuestionSubmitController {
      * @return
      */
     @PostMapping("/list/page")
-    public BaseResponse<Page<QuestionSubmit>> listQuestionByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
-                                                                 HttpServletRequest request) {
+    public BaseResponse<Page<QuestionSubmitVO>> listQuestionByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
+                                                                   HttpServletRequest request) {
         long current = questionSubmitQueryRequest.getCurrent();
         long size = questionSubmitQueryRequest.getPageSize();
+        //获取当前用户
+        User loginUser = userService.getLoginUser (request);
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        Page<Question> questionPage = questionsubmitService.page(new Page<>(current, size),
-                questionsubmitService.getQueryWrapper(questionQueryRequest));
-        return ResultUtils.success(questionPage);
+        Page<QuestionSubmit> questionSubmitPage = questionsubmitService.page(new Page<>(current, size),
+                questionsubmitService.getQueryWrapper(questionSubmitQueryRequest));
+        return ResultUtils.success(questionsubmitService.getQuestionSubmitVOPage (questionSubmitPage,loginUser));
     }
 
 }

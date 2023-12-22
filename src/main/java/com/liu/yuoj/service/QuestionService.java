@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liu.yuoj.model.dto.question.QuestionQueryRequest;
 import com.liu.yuoj.model.entity.Question;
+import com.liu.yuoj.model.entity.User;
 import com.liu.yuoj.model.vo.QuestionVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,10 +35,10 @@ public interface QuestionService extends IService<Question> {
      * 获取帖子封装
      *
      * @param question
-     * @param request
+     * @param loginUser
      * @return
      */
-    QuestionVO getQuestionVO(Question question, HttpServletRequest request);
+    QuestionVO getQuestionVO(Question question, User loginUser);
 
     /**
      * 分页获取帖子封装

@@ -83,7 +83,7 @@ public class QuestionVO implements Serializable {
     private Date updateTime;
 
     /**
-     * 创建题目人的信息
+     * 创建题目人的信息 (可写可不写)
      */
     private UserVO userVO;
 
@@ -98,7 +98,7 @@ public class QuestionVO implements Serializable {
         BeanUtils.copyProperties(questionVO, question);
         List<String> tagList = questionVO.getTags ();
         if (tagList != null) {
-            //包装类中tags属性是List类型，而question类中是字符串类型，使用GSON工具进行转换
+            //包装类中tags属性是List类型，而question类中是字符串类型，使用json工具进行转换
             question.setTags(JSONUtil.toJsonStr (tagList));
         }
         JudgeConfig judgeConfig1 = questionVO.getJudgeConfig ();

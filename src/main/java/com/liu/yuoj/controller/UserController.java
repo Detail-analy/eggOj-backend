@@ -2,10 +2,7 @@ package com.liu.yuoj.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liu.yuoj.annotation.AuthCheck;
-import com.liu.yuoj.common.BaseResponse;
-import com.liu.yuoj.common.DeleteRequest;
-import com.liu.yuoj.common.ErrorCode;
-import com.liu.yuoj.common.ResultUtils;
+import com.liu.yuoj.common.*;
 import com.liu.yuoj.config.WxOpenConfig;
 import com.liu.yuoj.constant.UserConstant;
 import com.liu.yuoj.exception.BusinessException;
@@ -222,6 +219,9 @@ public class UserController {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        //todo ThreadLocal获取本地储存对象
+        User user1 = UserThreadLocal.get ();
+        System.err.println (user1);
         User user = userService.getById(id);
         ThrowUtils.throwIf(user == null, ErrorCode.NOT_FOUND_ERROR);
         return ResultUtils.success(user);

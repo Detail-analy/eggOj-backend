@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liu.yuoj.common.ErrorCode;
+import com.liu.yuoj.common.UserThreadLocal;
 import com.liu.yuoj.constant.CommonConstant;
 import com.liu.yuoj.exception.BusinessException;
 import com.liu.yuoj.mapper.UserMapper;
@@ -19,6 +20,7 @@ import com.liu.yuoj.utils.SqlUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
@@ -35,6 +37,7 @@ import org.springframework.util.DigestUtils;
 @Service
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
 
     /**
      * 盐值，混淆密码
@@ -106,6 +109,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         // 3. 记录用户的登录态
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
+        //todo 使用ThreadLocal来实现登录用户储存
+        UserThreadLocal.set (user);
         return this.getLoginUserVO(user);
     }
 

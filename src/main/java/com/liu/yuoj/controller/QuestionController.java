@@ -14,6 +14,7 @@ import com.liu.yuoj.model.dto.question.*;
 import com.liu.yuoj.model.entity.Question;
 import com.liu.yuoj.model.entity.User;
 import com.liu.yuoj.model.vo.QuestionVO;
+import com.liu.yuoj.model.vo.UserVO;
 import com.liu.yuoj.service.QuestionService;
 import com.liu.yuoj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -155,11 +156,12 @@ public class QuestionController {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        User loginUser = userService.getLoginUser (request);
         Question question = questionService.getById(id);
         if (question == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
-        return ResultUtils.success(questionService.getQuestionVO(question, request));
+        return ResultUtils.success(questionService.getQuestionVO(question, loginUser));
     }
 
     /**

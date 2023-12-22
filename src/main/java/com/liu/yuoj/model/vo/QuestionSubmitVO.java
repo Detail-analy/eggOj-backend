@@ -1,18 +1,13 @@
 package com.liu.yuoj.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.google.gson.Gson;
-import com.liu.yuoj.model.dto.question.JudgeConfig;
 import com.liu.yuoj.model.dto.questionSubmit.JudgeInfo;
-import com.liu.yuoj.model.entity.Question;
 import com.liu.yuoj.model.entity.QuestionSubmit;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author 刘渠好
@@ -67,10 +62,11 @@ public class QuestionSubmitVO implements Serializable {
      */
     private Date updateTime;
 
+
     /**
-     * 提交用户信息
+     * 提交用户信息 （可要可不要）
      */
-    private UserVO userVO;
+//    private UserVO userVO;
 
     /**
      * 对应题目信息
