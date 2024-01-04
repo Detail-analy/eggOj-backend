@@ -14,7 +14,6 @@ import com.liu.yuoj.model.dto.question.*;
 import com.liu.yuoj.model.entity.Question;
 import com.liu.yuoj.model.entity.User;
 import com.liu.yuoj.model.vo.QuestionVO;
-import com.liu.yuoj.model.vo.UserVO;
 import com.liu.yuoj.service.QuestionService;
 import com.liu.yuoj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -146,7 +145,7 @@ public class QuestionController {
     }
 
     /**
-     * 根据 id 获取
+     * 根据 id 获取（脱敏）
      *
      * @param id
      * @return
@@ -162,6 +161,30 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         return ResultUtils.success(questionService.getQuestionVO(question, loginUser));
+    }
+    /**
+     * 根据 id 获取（不脱敏）
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/get")
+    public BaseResponse<Question> getQuestionById(long id,HttpServletRequest request) {
+        if (id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        Question question = questionService.getById(id);
+        if (question == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //拿到当用用户信息
+        User loginUser = userService.getLoginUser (request);
+        //不是本人不可以查看 注意：这里我们使用equals来比较的是包装类型的数据（Long。Integer） 不是基本类型（int，long，byte）
+        if (!loginUser.getId ().equals (question.getUserId ())&&userService.isAdmin (request)){
+            throw new BusinessException (ErrorCode.NO_AUTH_ERROR);
+        }
+        return ResultUtils.success(question);
     }
 
     /**
@@ -253,7 +276,7 @@ public class QuestionController {
         return ResultUtils.success(result);
     }
     /**
-     * 分页获取问题列表（不脱敏）todo 重点看看分页查询 不熟悉
+     * 分页获取问题列表（不脱敏）
      * @param questionQueryRequest
      * @param request
      * @return

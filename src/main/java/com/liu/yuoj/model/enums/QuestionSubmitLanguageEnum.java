@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public enum QuestionSubmitLanguageEnum {
 
     JAVA("java", "java"),
-    GOLONG("golong", "golong"),
+    GO("go", "go"),
     PYTHON("python", "python");
 
     private final String text;

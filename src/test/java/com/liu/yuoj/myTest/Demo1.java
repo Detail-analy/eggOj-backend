@@ -14,10 +14,7 @@ import java.util.ArrayList;
 @SpringBootTest
 public class Demo1 {
 
-    @Test
-    public void A(){
-        JSONArray objects = JSONUtil.parseArray ("[memoryLimit:1000 stackLimit:1000 timeLimit:1000]");
-        System.out.println (objects);
-
+    public static void main(String[] args) {
+        System.out.println ("hello world");
     }
 }

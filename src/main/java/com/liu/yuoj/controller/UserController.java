@@ -241,48 +241,7 @@ public class UserController {
         return ResultUtils.success(userService.getUserVO(user));
     }
 
-    /**
-     * 分页获取用户列表（仅管理员）
-     *
-     * @param userQueryRequest
-     * @param request
-     * @return
-     */
-    @PostMapping("/list/page")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Page<User>> listUserByPage(@RequestBody UserQueryRequest userQueryRequest,
-            HttpServletRequest request) {
-        long current = userQueryRequest.getCurrent();
-        long size = userQueryRequest.getPageSize();
-        Page<User> userPage = userService.page(new Page<>(current, size),
-                userService.getQueryWrapper(userQueryRequest));
-        return ResultUtils.success(userPage);
-    }
 
-    /**
-     * 分页获取用户封装列表
-     *
-     * @param userQueryRequest
-     * @param request
-     * @return
-     */
-    @PostMapping("/list/page/vo")
-    public BaseResponse<Page<UserVO>> listUserVOByPage(@RequestBody UserQueryRequest userQueryRequest,
-            HttpServletRequest request) {
-        if (userQueryRequest == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        long current = userQueryRequest.getCurrent();
-        long size = userQueryRequest.getPageSize();
-        // 限制爬虫
-        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        Page<User> userPage = userService.page(new Page<>(current, size),
-                userService.getQueryWrapper(userQueryRequest));
-        Page<UserVO> userVOPage = new Page<>(current, size, userPage.getTotal());
-        List<UserVO> userVO = userService.getUserVO(userPage.getRecords());
-        userVOPage.setRecords(userVO);
-        return ResultUtils.success(userVOPage);
-    }
 
     // endregion
 
@@ -306,5 +265,49 @@ public class UserController {
         boolean result = userService.updateById(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
+    }
+
+
+    /**
+     * 分页获取用户列表（仅管理员）
+     *
+     * @param userQueryRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/list/page")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Page<User>> listUserByPage(@RequestBody UserQueryRequest userQueryRequest,
+                                                   HttpServletRequest request) {
+        long current = userQueryRequest.getCurrent();
+        long size = userQueryRequest.getPageSize();
+        Page<User> userPage = userService.page(new Page<>(current, size),
+                userService.getQueryWrapper(userQueryRequest));
+        return ResultUtils.success(userPage);
+    }
+
+    /**
+     * 分页获取用户封装列表
+     *
+     * @param userQueryRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/list/page/vo")
+    public BaseResponse<Page<UserVO>> listUserVOByPage(@RequestBody UserQueryRequest userQueryRequest,
+                                                       HttpServletRequest request) {
+        if (userQueryRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long current = userQueryRequest.getCurrent();
+        long size = userQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        Page<User> userPage = userService.page(new Page<>(current, size),
+                userService.getQueryWrapper(userQueryRequest));
+        Page<UserVO> userVOPage = new Page<>(current, size, userPage.getTotal());
+        List<UserVO> userVO = userService.getUserVO(userPage.getRecords());
+        userVOPage.setRecords(userVO);
+        return ResultUtils.success(userVOPage);
     }
 }

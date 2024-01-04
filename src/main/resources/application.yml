@@ -13,7 +13,7 @@ spring:
   session:
     # store-type: redis
     # 30 天过期
-    timeout: 2592000
+    timeout: 25920000000
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

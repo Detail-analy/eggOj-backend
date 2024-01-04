@@ -16,7 +16,6 @@ import com.liu.yuoj.model.enums.QuestionSubmitEnum;
 import com.liu.yuoj.model.enums.QuestionSubmitLanguageEnum;
 import com.liu.yuoj.model.vo.QuestionSubmitVO;
 import com.liu.yuoj.model.vo.QuestionVO;
-import com.liu.yuoj.model.vo.UserVO;
 import com.liu.yuoj.service.QuestionService;
 import com.liu.yuoj.service.QuestionSubmitService;
 import com.liu.yuoj.service.UserService;
@@ -28,7 +27,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
