@@ -17,6 +17,7 @@ public enum JudgeInfoEnum {
      * RUNTIME_ERROR SYSTEM_ERROR
      */
     ACCEPTED("成功","accepted"),
+    WAITING("等待","waiting"),
     WRONG_ANSWER("答案错误","wrongAnswer"),
     COMPILE_ERROR("编译错误","compileError"),
     MEMORY_LIMIT("内存溢出","memoryLimit"),

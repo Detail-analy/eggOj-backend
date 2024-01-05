@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liu.yuoj.common.ErrorCode;
 import com.liu.yuoj.constant.CommonConstant;
 import com.liu.yuoj.exception.BusinessException;
+import com.liu.yuoj.judge.JudgeService;
+import com.liu.yuoj.judge.JudgeServiceImpl;
 import com.liu.yuoj.mapper.QuestionSubmitMapper;
+import com.liu.yuoj.model.dto.questionSubmit.JudgeInfo;
 import com.liu.yuoj.model.dto.questionSubmit.QuestionSubmitAddRequest;
 import com.liu.yuoj.model.dto.questionSubmit.QuestionSubmitQueryRequest;
 import com.liu.yuoj.model.entity.Question;
@@ -24,11 +27,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.liu.yuoj.model.enums.QuestionSubmitEnum.AWAITING;
@@ -49,6 +54,19 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     @Resource
     private QuestionService questionService;
+
+    /**
+     *    questionSubmitController
+     * ┌─────┐
+     * |  questionSubmitServiceImpl
+     * ↑     ↓
+     * |  judgeServiceImpl
+     * └─────┘
+     * 这个错误是questionSubmitServiceImpl和judgeServiceImpl互相调用了 产生了一个依赖循环 要加一个Lazy注解
+     */
+    @Resource    @Lazy
+
+    private JudgeService judgeService;
 
 
 
@@ -85,6 +103,11 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save){
             throw new BusinessException (ErrorCode.SYSTEM_ERROR,"数据插入失败!");
     }
+        //执行判断服务 使用异步操作
+        CompletableFuture.runAsync (()->{
+            judgeService.doJudge (questionSubmit.getId ());
+
+        });
         return questionSubmit.getId ();
     }
 

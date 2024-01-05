@@ -20,6 +20,7 @@ import com.liu.yuoj.utils.SqlUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
@@ -37,6 +38,10 @@ import org.springframework.util.DigestUtils;
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
+
+
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 盐值，混淆密码
@@ -73,8 +78,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             User user = new User();
             user.setUserAccount(userAccount);
             user.setUserPassword(encryptPassword);
+            //这里是为了方便插入数据 自己插入进去的
+            user.setUserName (userAccount);
+            user.setUserProfile ("hello 我是"+userAccount);
+            user.setUserAvatar ("www."+userAccount+".com");
             //插入数据到数据库
-            boolean saveResult = this.save(user);
+            boolean saveResult = this.save (user);
             if (!saveResult) {
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
             }

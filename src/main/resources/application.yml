@@ -56,6 +56,13 @@ mybatis-plus:
       logic-delete-field: isDelete # 全局逻辑删除的实体字段名
       logic-delete-value: 1 # 逻辑已删除值（默认为 1）
       logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+
+
+
+#代码沙箱配置（用户可以自定义的配置 可以交给用户自己去选择 更大的提升了拓展性）
+codesandbox:
+  type: remote
+
 # 微信相关
 wx:
   # 微信公众平台
