@@ -13,6 +13,7 @@ import com.liu.yuoj.model.dto.question.JudgeCase;
 import com.liu.yuoj.model.dto.questionSubmit.JudgeInfo;
 import com.liu.yuoj.model.entity.Question;
 import com.liu.yuoj.model.entity.QuestionSubmit;
+import com.liu.yuoj.model.enums.JudgeInfoEnum;
 import com.liu.yuoj.model.enums.QuestionSubmitEnum;
 import com.liu.yuoj.service.QuestionService;
 import com.liu.yuoj.service.QuestionSubmitService;
@@ -138,7 +139,12 @@ public class JudgeServiceImpl implements JudgeService {
         JudgeInfo judgeInfo1 = judgeManager.doJudge (judgeContext);
         questionSubmitUpdate= new QuestionSubmit ();
         questionSubmitUpdate.setId (questionSubmitId);
-        questionSubmitUpdate.setStatus (QuestionSubmitEnum.SUCCEED.getValue ());
+        if (judgeInfo1.getMessage ().equals (JudgeInfoEnum.ACCEPTED.getText ())){
+            questionSubmitUpdate.setStatus (QuestionSubmitEnum.SUCCEED.getValue ());
+        }else {
+            questionSubmitUpdate.setStatus (QuestionSubmitEnum.FAILED.getValue ());
+        }
+
         questionSubmitUpdate.setJudgeInfo (JSONUtil.toJsonStr (judgeInfo1));
         //更新
         boolean b1 = questionSubmitService.updateById (questionSubmitUpdate);

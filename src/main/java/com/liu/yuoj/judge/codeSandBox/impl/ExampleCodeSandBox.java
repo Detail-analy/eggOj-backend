@@ -5,6 +5,7 @@ import com.liu.yuoj.judge.codeSandBox.model.CodeSandBoxResponse;
 import com.liu.yuoj.judge.codeSandBox.model.ExecuteCodeRequest;
 import com.liu.yuoj.model.dto.questionSubmit.JudgeInfo;
 import com.liu.yuoj.model.enums.JudgeInfoEnum;
+import com.liu.yuoj.model.enums.QuestionSubmitEnum;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ExampleCodeSandBox implements CodeSandBox {
         CodeSandBoxResponse codeSandBoxResponse = new CodeSandBoxResponse ();
         codeSandBoxResponse.setMessage ("代码沙箱执行成功!!!");
         codeSandBoxResponse.setOutput (inputList);
-        codeSandBoxResponse.setStatus (0);
+        codeSandBoxResponse.setStatus (QuestionSubmitEnum.SUCCEED.getValue ());
         JudgeInfo judgeInfo = new JudgeInfo ();
         judgeInfo.setMessage (JudgeInfoEnum.ACCEPTED.getText ());
         judgeInfo.setMemory (100L);

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @author https://github.com/liliu
  */
 @Configuration
-@MapperScan("com.liu.yuoj.mapper")
+@MapperScan("com.liu.yuoj.mapper") //在主启动类上面加上这个注解之后 这里就不需要加了
 public class MyBatisPlusConfig {
 
     /**

@@ -103,7 +103,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save){
             throw new BusinessException (ErrorCode.SYSTEM_ERROR,"数据插入失败!");
     }
-        //执行判断服务 使用异步操作
+        //执行判断服务 使用异步操作(给客户一个好的体验)
         CompletableFuture.runAsync (()->{
             judgeService.doJudge (questionSubmit.getId ());
 

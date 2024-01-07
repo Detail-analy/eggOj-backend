@@ -61,7 +61,7 @@ mybatis-plus:
 
 #代码沙箱配置（用户可以自定义的配置 可以交给用户自己去选择 更大的提升了拓展性）
 codesandbox:
-  type: remote
+  type: example
 
 # 微信相关
 wx:
